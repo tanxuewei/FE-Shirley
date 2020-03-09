@@ -34,6 +34,15 @@ console.log(fn());
 /**
  * 如果bind绑定后的函数作为构造函数
  */
+Function.prototype.MyBind2 = function (context) {
+  var self = this
+  var bindArgs = [].slice.call(arguments, 1)
+  return function () {
+    var args = [].slice.call(arguments)
+    args = bindArgs.concat(args)
+    return self.apply(context, args)
+  }
+}
 
 function funcA () {
   this.a = 5
@@ -50,6 +59,6 @@ var objA = {
   }
 }
 
-var funcB = funcA.bind2(objA, 1, 2, 3)
+var funcB = funcA.MyBind2(objA, 1, 2, 3)
 // var funcB1 = new funcB(444)
 // console.log(funcB1.__proto__)

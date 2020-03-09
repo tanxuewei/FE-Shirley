@@ -22,7 +22,7 @@ var obj2 = {
   }
 }
 
-var fn = obj.getA(obj2, 'shirley')
-console.log(fn())
+var fn = obj.getA.MyBind(obj2, 'shirley');
+console.log(fn());
 
 /* ----------------- */

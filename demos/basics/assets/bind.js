@@ -35,12 +35,14 @@ console.log(fn());
  * 如果bind绑定后的函数作为构造函数
  */
 Function.prototype.MyBind2 = function (context) {
-  var self = this
-  var bindArgs = [].slice.call(arguments, 1)
-  return function () {
-    var args = [].slice.call(arguments)
-    args = bindArgs.concat(args)
-    return self.apply(context, args)
+  const self = this
+  const args = [...arguments].slice(1)
+
+  return function F() {
+    if (this instanceof F) {
+      return new self(...args, ...arguments)
+    }
+    return self.apply(context, args.concat(...arguments))
   }
 }
 

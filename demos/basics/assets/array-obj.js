@@ -43,7 +43,7 @@ function simpleCopy (obj) {
 }
 
 function deepCopy (obj) {
-  let result = {}
+  let result = obj instanceof Array ? [] : {}
   for (let key in obj) {
     let item = obj[key]
     result[key] = typeof item === 'object' ? deepCopy(item) : item
@@ -220,3 +220,102 @@ salesOffices.listen('squareMeter100', f1 = function (price) {
 })
 salesOffices.remove('squareMeter100', f1)
 salesOffices.trigger('squareMeter100', 30000)
+
+
+/* Object.defineProperty start*/
+var objA = {
+  name: 'aaa',
+  age: 'bbb'
+}
+
+var value
+Object.defineProperty(objA, 'name', {
+  configurable: false,
+  enumerable: false,
+  get: function () {
+    return value
+  },
+  set: function (newVal) {
+    value = newVal
+  }
+})
+
+// delete objA.name
+// delete objA.age
+
+objA.name = '213'
+/* Object.defineProperty end*/
+/*
+'/foo'.rewrite(/^\/foo/,'bar')//  '/bar'
+'/u1234'.rewrite(/^\/u(\d+)/, 'user/$1')// '/user/1234'
+'i'.rewrite(/^\/o/, '/ooo');//null
+*/
+
+String.prototype.rewrite = function (pattern, result) {
+  var reg = pattern.test(this)
+  if (reg) {
+    return '/' + this.replace(pattern, result)
+  } else {
+    return null
+  }
+}
+
+// console.log('/foo'.rewrite(/^\/foo/,'bar'))
+// console.log('/u1234'.rewrite(/^\/u(\d+)/, 'user/$1'))
+
+let urlStr = 'http://www.inode.club?name=koala&study=js&study=node'
+// 参数转成对象
+function queryString(request){
+    let params = request.split('?')[1];
+    let param = params.split('&');
+    let obj = {};
+    for (let i = 0;i<param.length;i++){
+        let paramsA = param[i].split('=');
+        let key = paramsA[0];
+        let value = paramsA[1];
+        if(obj[key]){
+            obj[key] = Array.isArray(obj[key])?obj[key]:[obj[key]];
+            obj[key].push(value);
+        }else{
+            obj[key] = value;
+        }
+    }
+    return obj;
+}
+// console.log(queryString(urlStr));
+
+function curry(fn, ...args) {
+  if(args.length >= fn.length) {
+    return fn.apply(null, args);
+  }
+
+  return (...args2) => curry(fn, ...args, ...args2);
+}
+
+const add = curry(function(a, b, c) {
+  return a + b + c;
+});
+
+
+const str = 'abc';
+const len = str.length;
+const flag = [];
+const res = [];
+
+DFS(0);
+
+// cur 表示第 cur 位取得字符
+// 每一位有 len 种取法
+function DFS(cur) {
+  if(cur === len)
+    return console.log(res.join(''));
+
+  for(let i = 0; i < len; i++) {
+    if(!flag[i]) {
+      res[cur] = str[i];
+      flag[i] = true;
+      DFS(cur + 1);
+      flag[i] = false;
+    }
+  }
+}

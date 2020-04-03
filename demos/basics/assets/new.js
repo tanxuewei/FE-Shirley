@@ -44,7 +44,7 @@ Promise.all = function (promises) {
     let result = []
     let count = 0
     for (let i = 0, len = promises.length; i < len; i++) {
-      Promise.resolve(promises[index]).then(data => {
+      Promise.resolve(promises[i]).then(data => {
         result[i] = data
         if (++count === promises.length) {
           resolve(result)

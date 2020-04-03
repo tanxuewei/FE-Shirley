@@ -297,29 +297,28 @@ const add = curry(function(a, b, c) {
 });
 
 
-const str = 'abc';
-const len = str.length;
-const flag = [];
-const res = [];
+// const str = 'abc';
+// const len = str.length;
+// const flag = [];
+// const res = [];
 
-DFS(0);
+// DFS(0);
 
-// cur 表示第 cur 位取得字符
-// 每一位有 len 种取法
-function DFS(cur) {
-  if(cur === len)
-    return console.log(res.join(''));
+// // cur 表示第 cur 位取得字符
+// // 每一位有 len 种取法
+// function DFS(cur) {
+//   if(cur === len)
+//     return console.log(res.join(''));
 
-  for(let i = 0; i < len; i++) {
-    if(!flag[i]) {
-      res[cur] = str[i];
-      flag[i] = true;
-      DFS(cur + 1);
-      flag[i] = false;
-    }
-  }
-}
-
+//   for(let i = 0; i < len; i++) {
+//     if(!flag[i]) {
+//       res[cur] = str[i];
+//       flag[i] = true;
+//       DFS(cur + 1);
+//       flag[i] = false;
+//     }
+//   }
+// }
 
 var quickSort = function(arr) {
   　　if (arr.length <= 1) { return arr; }
@@ -338,3 +337,108 @@ var quickSort = function(arr) {
   };
 
   quickSort([3, 1, 5, 7, 4, 8, 9, 6])
+
+
+var targetNode = document.getElementById('mutation');
+
+// Options for the observer (which mutations to observe)
+var config = { attributes: true, childList: true, subtree: true };
+
+// Callback function to execute when mutations are observed
+var callback = function(mutationsList) {
+    for(var mutation of mutationsList) {
+        if (mutation.type == 'childList') {
+            console.log('A child node has been added or removed.');
+        }
+        else if (mutation.type == 'attributes') {
+            console.log('The ' + mutation.attributeName + ' attribute was modified.');
+        }
+    }
+};
+
+// Create an observer instance linked to the callback function
+var observer = new MutationObserver(callback);
+
+// Start observing the target node for configured mutations
+observer.observe(targetNode, config);
+
+// Later, you can stop observing
+// observer.disconnect();
+
+// targetNode.innerText = 'hahaha'
+
+
+// 实现一个LazyMan，可以按照以下方式调用:
+// LazyMan('Hank')输出:
+// Hi! This is Hank!
+// LazyMan('Hank').sleep(10).eat('dinner')输出
+// Hi! This is Hank!
+// //等待10秒..
+// Wake up after 10
+// Eat dinner~
+// LazyMan('Hank').sleep(10).eat('dinner').eat('supper')输出
+// Hi This is Hank!
+// Eat dinner~
+// Eat supper~
+// LazyMan('Hank').sleepFirst(5).eat('supper')输出
+// //等待5秒
+// Wake up after 5
+// Hi This is Hank!
+// Eat supper~
+// 以此类推。
+
+function LazyMan (name) {
+  if (!(this instanceof LazyMan)) {
+    return new LazyMan(name)
+  }
+  const cb = (next) => {
+    console.log(`Hi! This is ${name}`)
+    next()
+  }
+  this.cbs = [cb]
+  setTimeout(() => {
+    this.next()
+  }, 0)
+}
+
+LazyMan.prototype.sleep = function (second) {
+  const cb = (next) => {
+    setTimeout(() => {
+      console.log(`Wake up after ${second}`)
+      next()
+    }, second * 1000)
+  }
+  this.cbs.push(cb)
+  return this
+}
+
+LazyMan.prototype.sleepFirst = function (second) {
+  const cb = (next) => {
+    setTimeout(() => {
+      console.log(`Wake up after ${second}`)
+      next()
+    }, second * 1000)
+  }
+  this.cbs.unshift(cb)
+  return this
+}
+
+LazyMan.prototype.eat = function (name) {
+  const cb = (next) => {
+    console.log(`Eat ${name}`)
+    next()
+  }
+  this.cbs.push(cb)
+  return this
+}
+
+LazyMan.prototype.next = function () {
+  if (this.cbs.length === 0) return
+  let first = this.cbs.shift()
+  first(this.next.bind(this))
+}
+
+// var lazyman = new LazyMan('Hank')
+// LazyMan('Hank').sleep(10).eat('dinner')
+LazyMan('Hank').sleepFirst(5).eat('supper')
+

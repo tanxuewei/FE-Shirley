@@ -442,3 +442,94 @@ LazyMan.prototype.next = function () {
 // LazyMan('Hank').sleep(10).eat('dinner')
 LazyMan('Hank').sleepFirst(5).eat('supper')
 
+//line=readline()
+//print(line)
+
+
+const a = [
+    '1.2.1',
+    '1.1.1' ,
+    '1.1.1.rc.1',
+]
+    
+    const SemMaps = {
+    rc: 3,
+    beta: 2,
+    alpha: 1,
+    }
+    
+const list = a.sort( ( a , b ) => {
+    let listA = a.split('.')
+    let listB = b.split( '.' )
+    let listAlen = listA.length
+    let listBlen = listB.length
+    if ( listAlen > listBlen ) {
+        let tmp = new Array( listAlen - listBlen ).fill(0)
+        listB = [...listB,...tmp]
+    } else {
+        let tmp = new Array( listBlen - listAlen ).fill(0)
+        listA = [...listA,...tmp]
+    }
+    let result = listA.find( ( semAKey , index ) => {
+        let semBkey = listB[ index ]
+        const isASpecSem = SemMaps[semAKey] !== undefined
+        const isBSpecSem = SemMaps[semBkey] !== undefined
+        if ( isASpecSem || isBSpecSem ) {
+            if ( isASpecSem && isBSpecSem ) {
+                return SemMaps[semAKey] - SemMaps[semBkey]
+            } else {
+                const isANum = /^\d+$/.test( semAKey )
+                const isBNum = /^\d+$/.test( semBKey )
+                const isAZero = semAKey === '0'
+                const isBZero = semBkey === '0'
+                return isANum && !isAZero ? 1 : isBNum ? -1 : 1
+            }
+        } else {
+            return parseInt(semAKey,10) - parseInt(semBkey,10) >= 0
+        }
+    } ) !== undefined
+    return result ? 1 : -1
+} )
+
+hasPathSum = function (root, sum) {
+  if (!root) return 0
+
+  sum -= root.val
+
+  if (root.left === null && root.right === null) {
+    return sum === 0
+  }
+
+  return hasPathSum(root.left, sum) || hasPathSum(root.right, sum)
+}
+
+str =  'Hello,${name}'
+data = { name: 'world' }
+function parse ( str , data ) {
+  let reg = /\$\{(.+?)\}/
+  let expr = str.match(reg)
+  if (!expr) return str
+
+  let word = expr[1]
+  console.log(expr)
+  str = str.replace(expr[0], data[word])
+  return str
+}
+
+console.log(parse(str, data))
+
+
+var reg1 = /\$\{(.+)\}/
+var reg2 = /\$\{(.+?)\}/
+var strr = '1${name_111}1'
+console.log(strr.match(reg1))
+console.log(strr.match(reg2))
+// console.log(reg2.test(strr))、
+
+var fn = () => {
+  cb()
+  setTimeout(() => {
+    fn()
+  }, time)
+}
+setTimeout(fn, time)

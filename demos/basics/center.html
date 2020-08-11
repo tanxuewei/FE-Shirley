@@ -31,15 +31,59 @@
     }
 
     #div3 {
-      width: 100px;
+      width: 500px;
       height: 100px;
       background: yellow;
+      display: flex;
+      align-items: center;
     }
 
     #div4 {
       width: 100px;
       height: 100px;
       background: #ccc;
+      display: table;
+    }
+
+    #div44 {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    #div5 {
+      width: 100px;
+      height: 50px;
+      background: #f00;
+      text-align: center;
+    }
+
+    #div6 {
+      width: 200px;
+      height: 50px;
+      background: green;
+      position: relative;
+    }
+
+    #div61 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #div7 {
+      width: 500px;
+      height: 100px;
+      background: yellow;
+      display: flex;
+      justify-content: center;
+    }
+
+    #div8 {
+      width: 100px;
+      height: 100px;
+      background: #ccc;
+      margin: 0 auto;
     }
   </style>
 </head>
@@ -57,10 +101,16 @@
       <span>2</span>
       <span>3</span><span>4</span>
     </div>
+    ------------ 垂直居中 ------------
     <div id="div1" class="div">line-height</div>
     <div id="div2" class="div"><div id="div22">absolute+transform</div></div>
-    <div id="div3" class="div"></div>
-    <div id="div4" class="div">div4</div>
+    <div id="div3" class="div">flex+ align-items: center;</div>
+    <div id="div4" class="div"><div id="div44">table</div></div>
+    ------------ 水平居中 ------------
+    <div id="div5" class="div">text-align: center;</div>
+    <div id="div6" class="div"><div id="div61">absolute+transform</div></div>
+    <div id="div7" class="div">flex+ justify-content: center;</div>
+    <div id="div8" class="div"><div id="div81">margin: 0 auto</div></div>
   </main>
   <script src="assets/bind.js"></script>
 </body>

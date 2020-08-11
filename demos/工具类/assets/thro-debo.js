@@ -32,3 +32,40 @@ var throttle = function (fn, interval) {
 // window.onresize = throttle(function () {
 //   console.log(1)
 // }, 500)
+
+function debounce (func, wait) {
+  var timeout = null
+
+  return function () {
+    const args = arguments
+    if (timeout) {
+      clearTimeout(timeout)
+    } 
+    timeout = setTimeout(() => {
+      func.apply(this, args)
+    }, wait)
+  }
+}
+
+
+
+function throttle (func, wait) {
+  var timeout
+
+  return function () {
+    const args = arguments
+    if (!timeout) {
+      timeout = setTimeout(() => {
+        func.apply(this, args)
+      }, wait)
+    }
+  }
+}
+
+// window.onresize = debounce(function () {
+//   console.log(1)
+// }, 500)
+
+window.onresize = throttle(function () {
+  console.log(2)
+}, 1000)
